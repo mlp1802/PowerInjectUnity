@@ -1,7 +1,5 @@
 
-Power_Inject
-Introduction
-Welcome to the Power_Inject documentation page. Power_Inject is a dependency injection framework specifically designed for Unity. It is designed to fit right into any Unity project with a minimum of modifications to your existing code. Everything is configured using attributes so you will not need to inherit from specific classes or similar intrusive behavior. Any existing project can be ported to Power_Inject gradually and as needed.
+Power_Inject is a dependency injection framework specifically designed for Unity. It is designed to fit right into any Unity project with a minimum of modifications to your existing code. Everything is configured using attributes so you will not need to inherit from specific classes or similar intrusive behavior. Any existing project can be ported to Power_Inject gradually and as needed.
 Why would you need Power_Inject, or any other dependency injection framework, in Unity3D anyway ? in short, to allow objects that are normally too “far away from each to” to reference each other.
 When I say objects I mean both your MonoBehaviors as well as any other custom object.
 Unity3Ds “component model” is great for most cases, but what happens when you need to access an
@@ -22,7 +20,7 @@ class Player:MonoBehaviour {
 }
 ```
 
-This set up a “player” object. Any mono behavior annotated with [Insert] is marked as an object that can be injected into other objects. It will also itself be injected.
+This set up a “player” object. Any ```MonoBehavior annotated with [Insert] is marked as an object that can be injected into other objects. It will also itself be injected.
 The Player object can now be accessed from any other object below the PowerPipeline component by using the [Inject] attribute
 
 ```csharp
@@ -47,7 +45,7 @@ class SomeLevel:MonoBehaviour {
 ```
 
 The `SomeLevel` behavior receives the Player object and also makes itself available for other objects:
-
+```csharp
 [Power]
 class DoSomeStuffWithLevel:MonoBehaviour {
     [Inject]
@@ -56,6 +54,7 @@ class DoSomeStuffWithLevel:MonoBehaviour {
         MonoBehaviour.print("We got player "+level.player+" here !");
     }
 }
+```
 
 
 Note that in this case, the DoSomeStuffWithLevel class is not marked with [Insert], but simply with the annotation[Power]. You should do that in cases where you do not want to make the object available for other objects, but simply want it to be injected.
@@ -323,8 +322,8 @@ The object created by:
        return new KeyboardUserControls();
    }
 ```
-```csharp
 Will be received only by:
+```csharp
  [Inject]
  IUserControls controls;
 
