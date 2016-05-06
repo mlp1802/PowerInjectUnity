@@ -100,10 +100,12 @@ You can produce objects using either the [Insert] attribute or the [Produce] att
 class SomeMuchNeededBehavior:MonoBehaviour
 {
 }
-
-
+````
 But you can “produce” objects in another way as well
 Let’s say we have these two classes:
+
+```csharp
+
 class BulletSpawner {
     //..
 }
@@ -117,7 +119,6 @@ We want to create them and make them available for injection.
 [Power]
 class HereWeCreateAlotOfObjects : MonoBehaviour
 {
-
     [Produce]
     BulletSpawner createBulletSpawner() {
         return new BulletSpawner();
@@ -127,18 +128,17 @@ class HereWeCreateAlotOfObjects : MonoBehaviour
     UserControls createUserControls() {
         return new UserControls();
     }
-
 }
 ```
 
 Here we have a monobehavior which sole responsibility is to create other objects, using the “produce” tag.
 But what if some of our objects are dependent on other objects in the creation phase ? Lets say, we need a “Settings” object to be available before we can create a “UserControls” object. No worry, simply add the UserSettings to the “producer signature”, like this:
 ```csharp    
-    [Produce]
-    UserControls createUserControls(Settings settings) {
-        var speed = settings.speed;
-        return new UserControls(speed);
-    }
+[Produce]
+UserControls createUserControls(Settings settings) {
+    var speed = settings.speed;
+    return new UserControls(speed);
+}
 
 ```
 You can receive as many objects as you want:
@@ -169,7 +169,8 @@ class Player:MonoBehaviour {
 ``` 
 
 It works in the exact same way.
-Interface composition
+
+###Interface composition
 In many cases you would like to implement some functionality but you are not quite sure of the scope of it.
 You might have an idea of it, or you at least partly know what it should do.
 The goal is to create a single interface implementation that contains the desired functionality, but the problem is that that the functionality, and the necessary data needed to create it, might be scattered out all over the application.
@@ -211,6 +212,7 @@ class SomeBasicSetupBevavior : MonoBehaviour
 
 
 At some point in the future, you realize that you want to expand this interface to contain more stuff, but you also want to keep the KeyboardUserControls simple, honoring the Single Responsibility principle as much as possible, and ensuring that, when your project has grown to two million lines of code, you will maintain your sanity.
+
 Let’s say, we have a HealtCheckerControls class that implements the IUserControls interface. This class checks for players energy and prevents the player from moving when energy is less that zero:
 ```csharp
 class HealtCheckerControls:IUserControls {
@@ -252,18 +254,20 @@ Of course you can receive more objects as well:
 [Produce]
 IUserControls enhanceControls(SomeObject someObj,IUserControls controls)//receives IUsercontrols, returns IUserControls
 {
-
     return new HealtCheckerControls(controls,someObj);
 }
 ```
 
 
 The names of the producer methods are not important at all. They just have to be annotated with the [produce] annotation.
-Order of execution
+
+###Order of execution
 Producers are executed whenever the objects they need becomes available (the arguments) and in this order:
+
 1) Top down in the scene graph.
 2) The monobehaviors position on the GameObject (top down)
 3) The producer functions position in the MonoBehavior (top down)
+
 If order of execution is important, simply rearrange the producers position.
 Producers that returns the same type as it receives will always execute before any producer that receives another type that it returns .
 Example
@@ -277,8 +281,6 @@ public Player produce2(IUserControls controls) {
     ..
 }
 ```
-
-
 In this case, Produce1 will execute before Produce2.This is because Produce1is part of an interface composition (it adds to an interface) whereas Produce2 probably needs the “final” implementation of IUserControls.
 Named injection
 As it is, there can only be ONE instance of each class or each interface among the final produced objects at one time. If you have produced a “Player”, that is the only player available. No matter how many players you produce, only the last one will be available. Likewise, there will only be only one instance of each type of interface.
@@ -324,7 +326,7 @@ class ClassThatNeedsPlayers {
     Player player2;
 }
 ```
-Type producing
+###Type producing
 The return type of each producer is also the exact type it binds to.
 The object created by:
 ```csharp
@@ -378,7 +380,6 @@ Player producePlayer([Typed(typeof(KeyboardUserControls))] IUserControls control
 }       
 ```
 
-
 You can also specify [Typed] when using the [Insert] tag on monobehaviors.
 ```csharp
 [Insert (Typed=typeof(IUserControl))]
@@ -390,7 +391,8 @@ class MonoBehaviorThatIsAlsoAUserControl:IUserControls {
 
 Here you specify that your monobehavior should really be seen as a IUserControlsand not a MonoBehaviorThatIsAlsoAUserControl.
 If you do not specify that, it will be seen as a MonoBehaviorThatIsAlsoAUserControland no field or producer that expects a IUserControls will ever receive it..
-The [NewInstance] attribute.
+
+###The [NewInstance] attribute.
 If you want to create an object only used in a single class, meaning it is not injected into other classes, you can use the [NewInstance] tag. It is very similar to the new keyword, only difference is that objects created with new will not be injected.
 ```csharp
 class Player {
@@ -424,7 +426,7 @@ class Gun {
 }
 ```
 
-Creating objects on the fly
+###Creating objects on the fly
 But what if you want to dynamically create objects ? Bullets, for example. Attributes can’t handle that.
 The solution is to inject the injector itself, then inject the newly created object, using the injector. That sentence is barely understandable so here is an example.
 ```csharp
@@ -442,9 +444,11 @@ class Player {
 ```
 
 Just remember that injection might be an expensive operation if you have a deep object graph, so some kind of object pooling might be appropriate.
-Shielded injection
+
+###Shielded injection
 If you need areas of separate injection, meaning, objects graphs that do not interfere with each other, simply add more PowerPipelines to the scene graph.
-Hierarchical injection
+
+###Hierarchical injection
 Sometimes you want a “main” or “parent” pipeline, that floats objects down to sub pipelines. You can have as many pipelines as you want, ordered in whatever hierarchy that reflects the logic of your application. The pipelines on the same level do not know about each other, but all receive common objects from the mainpipeline.
 An example could be a two player game with two identical “Player” pipelines, and a shared “Master” pipeline.
 The master pipeline could provide objects like levels, settings etc, and the “player” pipelines objects like controls, health etc.
@@ -452,5 +456,6 @@ The set up could be something like this (in the scenegraph)
 —MasterPipeline
 ——Player1 pipeline
 ——Player2 pipeline
-Error messages
-When you run your game, you will receive messages in the Unity log window about what producers did not run and what fields were not injected, if any.
+
+###Error messages
+When you run your game, you will receive warning messages in the Unity log window about what producers did not run and what fields were not injected, if any.
