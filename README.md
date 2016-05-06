@@ -91,7 +91,8 @@ class Player {
 
 This method will be executed AFTER Start() but BEFORE Update() and FixedUpdate(), so you can do any last minute initialization here.
 The method attributed with [OnInjected] must have zero parameters
-Producing objects
+
+###Producing objects
 You can produce objects using either the [Insert] attribute or the [Produce] attribute. The [Insert] attribute works, as mentioned, like this.
 
 ```csharp
