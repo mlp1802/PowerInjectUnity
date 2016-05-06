@@ -8,9 +8,11 @@ Unity3Ds “component model” is great for most cases, but what happens when yo
 object not belonging to the same GameObject (as the one you are currently “in” )? This is where Power_Inject steps in.
 Setup
 Import the package into your project. Select a gameobject and add a PowerPipeline component to it. Any monobehavior that uses injection must be placed at this GameObject or anywhere below it in the scene graph hierarchy.
-```csharp
-Injection
+
 A quick example of how to “produce” things and how to “inject” things
+
+```csharp
+
 
 using PowerInject;
 
@@ -23,25 +25,28 @@ class Player:MonoBehaviour {
 This set up a “player” object. Any mono behavior annotated with [Insert] is marked as an object that can be injected into other objects. It will also itself be injected.
 The Player object can now be accessed from any other object below the PowerPipeline component by using the [Inject] attribute
 
+```csharp
 using PowerInject;
 [Insert]
 class SomeLevel:MonoBehaviour {
     [Inject]
     Player player;//receives player here
 }
+```
 
 
 You can use properties as well:
 
+```csharp
 using PowerInject;
  [Insert]
 class SomeLevel:MonoBehaviour {
     [Inject]
     public Player player {get;set;};//receives player here
 }
+```
 
-
-The SomeLevel behavior receives the Player object and also makes itself available for other objects:
+The `SomeLevel` behavior receives the Player object and also makes itself available for other objects:
 
 [Power]
 class DoSomeStuffWithLevel:MonoBehaviour {
@@ -61,6 +66,7 @@ Dependency injection will be executed AFTER the monobehaviors Start() method. So
 All objects will be available and fully injected on FixedUpdate and Update.
 But if you need a method similar to Start(), but where all objects are ready for use, you can attribute a method with the [OnInjected] attribute like this:
 
+```csharp
 class Player {
 
         [Inject]
@@ -72,13 +78,14 @@ class Player {
             //The "controls" variable is now available.
         } 
     }
-
+```
 
 This method will be executed AFTER Start() but BEFORE Update() and FixedUpdate(), so you can do any last minute initialization here.
 The method attributed with [OnInjected] must have zero parameters
 Producing objects
 You can produce objects using either the [Insert] attribute or the [Produce] attribute. The [Insert] attribute works, as mentioned, like this.
 
+```csharp
 [Insert]
 class SomeMuchNeededBehavior:MonoBehaviour
 {
@@ -93,10 +100,10 @@ class BulletSpawner {
 class UserControls {
     //..
 }
-
+````
 
 We want to create them and make them available for injection.
-
+```csharp
 [Power]
 class HereWeCreateAlotOfObjects : MonoBehaviour
 {
@@ -112,22 +119,22 @@ class HereWeCreateAlotOfObjects : MonoBehaviour
     }
 
 }
-
+```
 
 Here we have a monobehavior which sole responsibility is to create other objects, using the “produce” tag.
 But what if some of our objects are dependent on other objects in the creation phase ? Lets say, we need a “Settings” object to be available before we can create a “UserControls” object. No worry, simply add the UserSettings to the “producer signature”, like this:
-    
+```csharp    
     [Produce]
     UserControls createUserControls(Settings settings) {
         var speed = settings.speed;
         return new UserControls(speed);
     }
 
-
+```
 Note: some of the examples are pretty silly because in very simple applications, you often do not need
 dependency injection. I hope that they make sense though.
 You can receive as many objects as you want:
-
+```csharp
     [Produce]
     UserControls createUserControls(Settings settings,SomeStuff stuff) {
         return new UserControls(settings,stuff);
@@ -136,20 +143,23 @@ You can receive as many objects as you want:
 
 Of course, this producer will not be called until other producers methods somewhere produced a Settings objects and a SomeStuff object.
 The [Insert] attribute is a convenience attribute. Instead of writing this:
+```csharp
 [Power]
 class Player:MonoBehaviour {
     [Produce] Player letsGetThePlayer() {
         return this;
     }
 }
-
+```
 
 It’s quicker to write this:
+```csharp
 [Insert]
 class Player:MonoBehaviour {
 
 }
 
+``` 
 
 It works in the exact same way.
 Interface composition
@@ -165,7 +175,7 @@ interface IUserControls {
 
 
 And an implementation that reads the keyboard:
-
+```csharp
 class KeyboardUserControls:IUserControls {
     public String getCommand()
     {           
@@ -177,10 +187,10 @@ class KeyboardUserControls:IUserControls {
         return "";//nothing was selected    
     }
 }
-
+```
 
 At first you make the KeyboardUserControls available:
-
+```csharp
 [Power]
 class SomeBasicSetupBevavior : MonoBehaviour
 {
@@ -189,11 +199,12 @@ class SomeBasicSetupBevavior : MonoBehaviour
         return new KeyboardUserControls();
     }
 }
+```
 
 
 At some point in the future, you realize that you want to expand this interface to contain more stuff, but you also want to keep the KeyboardUserControls simple, honoring the Single Responsibility principle as much as possible, and ensuring that, when your project has grown to two million lines of code, you will maintain your sanity.
 Let’s say, we have a HealtCheckerControls class that implements the IUserControls interface. This class checks for players energy and prevents the player from moving when energy is less that zero:
-
+```csharp
 class HealtCheckerControls:IUserControls {
     [Inject]
     Player player;
@@ -214,7 +225,7 @@ class HealtCheckerControls:IUserControls {
         }
     }
 }
-
+````
 
 Then you need to add a new producer method that receives the old implementation and returns a new one.
 
