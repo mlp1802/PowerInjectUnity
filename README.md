@@ -1,7 +1,7 @@
 
 #PowerInject
 
-Power_Inject is a dependency injection framework specifically designed for Unity. It is designed to fit right into any Unity project with a minimum of modifications to your existing code. 
+Power_Inject is a dependency injection framework specifically designed for Unity. It is designed to fit right into any Unity project because it does not require you to modify your existing code in any way.
 
 Everything is configured using attributes so you will not need to inherit from specific classes or similar intrusive behavior. Any existing project can be ported to Power_Inject gradually and as needed.
 Why would you need Power_Inject, or any other dependency injection framework, in Unity3D anyway ? in short, to allow objects that are normally too “far away from each to” to reference each other.
