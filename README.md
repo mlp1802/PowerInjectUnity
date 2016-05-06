@@ -300,9 +300,10 @@ IUserControls producePlayerControlsForPlayer1([Named("Player1")] Player   player
   {
        ..
   }
-
+```
 
 Injection:
+```csharp
 class ClassThatNeedsPlayers {
     [Inject]
     [Named("Player1")]
@@ -312,7 +313,6 @@ class ClassThatNeedsPlayers {
     [Named("Player2")]
     Player player2;
 }
-
 ```
 Type producing
 The return type of each producer is also the exact type it binds to.
