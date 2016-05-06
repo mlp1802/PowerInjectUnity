@@ -1,10 +1,14 @@
 
-Power_Inject is a dependency injection framework specifically designed for Unity. It is designed to fit right into any Unity project with a minimum of modifications to your existing code. Everything is configured using attributes so you will not need to inherit from specific classes or similar intrusive behavior. Any existing project can be ported to Power_Inject gradually and as needed.
+Power_Inject is a dependency injection framework specifically designed for Unity. It is designed to fit right into any Unity project with a minimum of modifications to your existing code. 
+
+Everything is configured using attributes so you will not need to inherit from specific classes or similar intrusive behavior. Any existing project can be ported to Power_Inject gradually and as needed.
 Why would you need Power_Inject, or any other dependency injection framework, in Unity3D anyway ? in short, to allow objects that are normally too “far away from each to” to reference each other.
+
 When I say objects I mean both your MonoBehaviors as well as any other custom object.
 Unity3Ds “component model” is great for most cases, but what happens when you need to access an
 object not belonging to the same GameObject (as the one you are currently “in” )? This is where Power_Inject steps in.
 Setup
+
 Import the package into your project. Select a gameobject and add a PowerPipeline component to it. Any monobehavior that uses injection must be placed at this GameObject or anywhere below it in the scene graph hierarchy.
 
 A quick example of how to “produce” things and how to “inject” things
