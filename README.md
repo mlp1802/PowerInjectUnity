@@ -69,7 +69,7 @@ You must always mark your MonoBehaviors with either `[Insert]` or `[Power]` or t
 
 This is basic injection, we will get back to more advanced forms of injections, named and typed, later.
 
-##When will objects be available ?
+###When will objects be available ?
 
 Dependency injection will be executed AFTER the monobehaviors Start() method. So you should not try to use any objects (that requires injection) in the Awake() or Start()methods.
 All objects will be available and fully injected on FixedUpdate and Update.
