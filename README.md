@@ -8,7 +8,7 @@ Unity3Ds “component model” is great for most cases, but what happens when yo
 object not belonging to the same GameObject (as the one you are currently “in” )? This is where Power_Inject steps in.
 Setup
 Import the package into your project. Select a gameobject and add a PowerPipeline component to it. Any monobehavior that uses injection must be placed at this GameObject or anywhere below it in the scene graph hierarchy.
-`
+```csharp
 Injection
 A quick example of how to “produce” things and how to “inject” things
 
@@ -18,7 +18,7 @@ using PowerInject;
 class Player:MonoBehaviour {
     void Update() {...}   
 }
-
+```
 
 This set up a “player” object. Any mono behavior annotated with [Insert] is marked as an object that can be injected into other objects. It will also itself be injected.
 The Player object can now be accessed from any other object below the PowerPipeline component by using the [Inject] attribute
