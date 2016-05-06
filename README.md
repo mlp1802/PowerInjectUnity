@@ -11,7 +11,7 @@ Unity3Ds “component model” is great for most cases, but what happens when yo
 object not belonging to the same GameObject (as the one you are currently “in” )? This is where Power_Inject steps in.
 Setup
 
-Import the package into your project. Select a gameobject and add a PowerPipeline component to it. Any monobehavior that uses injection must be placed at this GameObject or anywhere below it in the scene graph hierarchy.
+Import the package into your project. Select a gameobject and add a PowerPipeline component to it. Any `MonoBehavior` that uses injection must be placed at this GameObject or anywhere below it in the scene graph hierarchy.
 
 A quick example of how to “produce” things and how to “inject” things
 
@@ -63,10 +63,14 @@ class DoSomeStuffWithLevel:MonoBehaviour {
 ```
 
 
-Note that in this case, the DoSomeStuffWithLevel class is not marked with [Insert], but simply with the annotation[Power]. You should do that in cases where you do not want to make the object available for other objects, but simply want it to be injected.
-You must always mark your MonoBehaviors with either [Insert] or [Power] or the framework will not notice them. The reason is that you might have thousands of other MonBehaviors that you might not want to inject, and to save resources Power_Inject only considers monobehaviors marked with either [Insert] or [Power] as objects that need injection.
+Note that in this case, the `DoSomeStuffWithLevel` class is not marked with `[Insert]`, but simply with the annotation `[Power]`. You should do that in cases where you do not want to make the object available for other objects, but simply want it to be injected.
+
+You must always mark your MonoBehaviors with either `[Insert]` or `[Power]` or the framework will not notice them. The reason is that you might have thousands of other MonBehaviors that you might not want to inject, and to save resources Power_Inject only considers monobehaviors marked with either [Insert] or [Power] as objects that need injection.
+
 This is basic injection, we will get back to more advanced forms of injections, named and typed, later.
-When will objects be available ?
+
+##When will objects be available ?
+
 Dependency injection will be executed AFTER the monobehaviors Start() method. So you should not try to use any objects (that requires injection) in the Awake() or Start()methods.
 All objects will be available and fully injected on FixedUpdate and Update.
 But if you need a method similar to Start(), but where all objects are ready for use, you can attribute a method with the [OnInjected] attribute like this:
