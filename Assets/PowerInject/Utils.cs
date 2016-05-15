@@ -15,10 +15,10 @@ namespace PowerInject
         {
 
             return;
-            /*StreamWriter w = File.AppendText("c:/temp/test.txt");
+            StreamWriter w = File.AppendText("c:/temp/test.txt");
             w.Write(str + "\n");
             w.Flush();
-            w.Close();*/
+            w.Close();
 
         }
         public static T getFirstComponentInParent<T>(GameObject g)

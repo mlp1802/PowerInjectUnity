@@ -117,7 +117,7 @@ namespace PowerInject
             var members = getPropertiesAnnotatedWith(o.GetType(), typeof(Inject)).Select(f => new Property(f, KeyProducer.produceKey(f))).ToList();
             return members;
         }
-        public static List<FieldInfo> getFieldsToCreate(object o)
+        public static List<FieldInfo> getNewInstances(object o)
         {
             var members = getFieldsAnnotatedWith(o.GetType(), typeof(NewInstance));
             return members;

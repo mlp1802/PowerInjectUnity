@@ -17,6 +17,7 @@ namespace PowerInject
     {
         List<Producer> producers = new List<Producer>();
         List<object> toBeInjected = new List<object>();
+
         Dictionary<String, FinalValue> finalObjects = new Dictionary<String, FinalValue>();
         IPipelineLogger logger = new ConsoleLogger();
         protected int index;
@@ -55,12 +56,17 @@ namespace PowerInject
             }
         }
 
-        protected void addFinalObject(String key, FinalValue o)
+        protected void addFinalObject(String key, FinalValue o,Boolean shouldBeInjected)
         {
+            
+            
             if (o.obj != null) 
             { 
                 finalObjects[key] = o;
-                toBeInjected.Add(o.obj);
+                if (shouldBeInjected) {
+                    toBeInjected.Add(o.obj);
+                }
+                
             }
         }
 
@@ -71,7 +77,7 @@ namespace PowerInject
 
         public void addToFinalObjects(Dictionary<String, FinalValue> values)
         {
-            values.Keys.ToList().ForEach(x => addFinalObject(x, values[x]));
+            values.Keys.ToList().ForEach(x => addFinalObject(x, values[x], false));
         }
 
         protected List<object> getFinalObjectsThatFitsParameters(List<Parameter> parameters)
@@ -83,7 +89,7 @@ namespace PowerInject
         protected void callProducer(Producer producer, List<object> values)
         {
             var returnValue = producer.invoke(values.ToArray());
-            addFinalObject(producer.invokeable.getKey().getCode(), new FinalValue(producer.invokeable.getKey(), returnValue));
+            addFinalObject(producer.invokeable.getKey().getCode(), new FinalValue(producer.invokeable.getKey(), returnValue),true);
 
         }
         
@@ -170,7 +176,7 @@ namespace PowerInject
             {
                 keys.ForEach(key =>
                 {
-                    addFinalObject(key.getCode(), new FinalValue(key, o));
+                    addFinalObject(key.getCode(), new FinalValue(key, o),true);
 
                 });
             }
@@ -271,38 +277,39 @@ namespace PowerInject
 
 
         }
-        public void createField(object obj, FieldInfo field)
+        public void createNewInstance(object obj, FieldInfo field)
         {
             var constructors = ReflectionUtils.getConstructors(field.FieldType);
             Boolean notFound = true;
             var index = 0;
             var count = constructors.Count();
-            object createdObject = null;
+            object newInstance = null;
             for (int i = 0; i < count; i++)
             {
                 var constructor = constructors[i];
-                createdObject = createObject(obj.GetType(), constructor);
-                if (createdObject != null)
+                newInstance = createObject(obj.GetType(), constructor);
+                if (newInstance != null)
                 {
                     break;
                 }
             }
-            if (createdObject != null)
+            if (newInstance != null)
             {
-                field.SetValue(obj, createdObject);
-                injectFields(createdObject);
-                createFields(createdObject);
+                field.SetValue(obj, newInstance);
+                injectFields(newInstance);
+                createNewInstances(newInstance);
+                onInjected(newInstance);
             }
 
         }
 
 
-        protected void createFields(object obj) 
+        protected void createNewInstances(object obj) 
         {
             try
             {
-                var fieldsToCreate = ReflectionUtils.getFieldsToCreate(obj);
-                fieldsToCreate.ForEach(field => createField(obj, field));
+                var fieldsToCreate = ReflectionUtils.getNewInstances(obj);
+                fieldsToCreate.ForEach(field => createNewInstance(obj, field));
             }
             catch (Exception e)
             {
@@ -361,6 +368,7 @@ namespace PowerInject
         }
         protected void onInjected(object m)
         {
+            
             try
             {
                 var methods = ReflectionUtils.getOnInjectedMethods(m);
@@ -369,8 +377,8 @@ namespace PowerInject
                 {
                     var cparams = method.GetParameters().ToList();
                     var values = ReflectionUtils.getParameters(cparams).Select(p => getFinalObjectByKey(p.key)).Where(fv => fv != null).Select(fv => fv.obj).ToList();
-                    //loller
                     method.Invoke(m, values.ToArray());
+                    //logger.logMessage("ON injected on " + m.ToString());
                 });
             }
             catch (Exception e)
@@ -388,7 +396,7 @@ namespace PowerInject
         public void inject(object obj) {
             injectFields(obj);
             injectProperties(obj);
-            createFields(obj);
+            createNewInstances(obj);
         }
         protected void injectAll()
         {
