@@ -8,7 +8,8 @@ Why would you need Power_Inject, or any other dependency injection framework, in
 When I say objects I mean both your MonoBehaviors as well as any other custom object.
 Unity3Ds “component model” is great for most cases, but what happens when you need to access an
 object not belonging to the same GameObject (as the one you are currently “in” )? This is where Power_Inject steps in.
-Setup
+
+###Setup
 
 Import the package into your project. Select a gameobject and add a PowerPipeline component to it. Any `MonoBehavior` that uses injection must be placed at this GameObject or anywhere below it in the scene graph hierarchy.
 
