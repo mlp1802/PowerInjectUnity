@@ -1,4 +1,6 @@
+Library/
+ProjectSettings/
 lib/
 obj/
 Temp/
-*.meta
+
