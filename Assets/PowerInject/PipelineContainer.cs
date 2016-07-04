@@ -393,14 +393,20 @@ namespace PowerInject
         }
 
 
-        public void inject(object obj) {
+        public void inject(object obj)
+        {
+            injectInternal(obj);
+            onInjected(obj);
+        }
+        protected void injectInternal(object obj) {
             injectFields(obj);
             injectProperties(obj);
             createNewInstances(obj);
+            //onInjected(obj);
         }
         protected void injectAll()
         {
-            toBeInjected.ForEach(obj => inject(obj));
+            toBeInjected.ForEach(obj => injectInternal(obj));
             onInjected();
 
         }
