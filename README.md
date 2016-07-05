@@ -454,6 +454,7 @@ Sometimes you want a “main” or “parent” pipeline, that floats objects do
 An example could be a two player game with two identical “Player” pipelines, and a shared “Master” pipeline.
 The master pipeline could provide objects like levels, settings etc, and the “player” pipelines objects like controls, health etc.
 The set up could be something like this (in the scenegraph)
+  
 MasterPipeline  
 --Player1 pipeline  
 --Player2 pipeline  
