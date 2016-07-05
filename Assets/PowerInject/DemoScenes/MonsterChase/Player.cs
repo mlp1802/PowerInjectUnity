@@ -3,7 +3,7 @@ using System.Collections;
 using PowerInject;
 namespace Uhyre1
 {
-    [Power]
+    
     [Insert]
     public class Player : MonoBehaviour
     {

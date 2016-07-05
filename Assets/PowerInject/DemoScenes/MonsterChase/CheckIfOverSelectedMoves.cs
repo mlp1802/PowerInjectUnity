@@ -10,11 +10,11 @@ namespace Uhyre1
     public class CheckIfOverSelectedMoves : MonoBehaviour, ISelectedMoves
     {
         ISelectedMoves selected;
+
         [Inject]
-
         GameState gameState;
-        [Produce]
 
+        [Produce]
         protected ISelectedMoves produceThis(ISelectedMoves selected)
         {
             this.selected = selected;
