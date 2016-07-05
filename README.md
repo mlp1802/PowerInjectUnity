@@ -282,7 +282,8 @@ public Player produce2(IUserControls controls) {
 }
 ```
 In this case, Produce1 will execute before Produce2.This is because Produce1is part of an interface composition (it adds to an interface) whereas Produce2 probably needs the “final” implementation of IUserControls.
-Named injection
+
+###Named injection
 As it is, there can only be ONE instance of each class or each interface among the final produced objects at one time. If you have produced a “Player”, that is the only player available. No matter how many players you produce, only the last one will be available. Likewise, there will only be only one instance of each type of interface.
 To get around of that, you can “name” the objects produced.
 ```csharp
