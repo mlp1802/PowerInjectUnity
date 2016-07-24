@@ -8,14 +8,14 @@ namespace Uhyre1
     [Insert]
     public class Labyrinth : MonoBehaviour
     {
-        public int width = 20;
+        public int width = 101;
         public float brickSize = 2.0f;
         public int spaceBetweenBricks = 3;
         public int NumberOfDots { get; set; }
-        
+
         [Inject]
         Monster monster;
-
+        
         void addWall(float x, float y)
         {
             GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
