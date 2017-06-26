@@ -1,5 +1,6 @@
 
-#PowerInject
+### PowerInject
+
 Power_Inject is a dependency injection framework specifically designed for Unity. It is designed to fit right into any Unity project because it does not require you to modify your existing code in any way.
 
 Everything is configured using attributes so you will not need to inherit from specific classes or similar intrusive behavior. Any existing project can be ported to Power_Inject gradually and as needed.
@@ -9,7 +10,7 @@ When I say objects I mean both your MonoBehaviors as well as any other custom ob
 Unity3Ds “component model” is great for most cases, but what happens when you need to access an
 object not belonging to the same GameObject (as the one you are currently “in” )? This is where Power_Inject steps in.
 
-###Setup
+### Setup
 
 Import the package into your project. Select a gameobject and add a PowerPipeline component to it. Any `MonoBehavior` that uses injection must be placed at this GameObject or anywhere below it in the scene graph hierarchy.
 
@@ -26,7 +27,7 @@ class Player:MonoBehaviour {
 }
 ```
 
-This set up a “player” object. Any ```MonoBehavior annotated with [Insert] is marked as an object that can be injected into other objects. It will also itself be injected.
+This sets up a “Player” object. Any ```MonoBehavior annotated with [Insert] is marked as an object that can be injected into other objects. It will also itself be injected.
 The Player object can now be accessed from any other object below the PowerPipeline component by using the [Inject] attribute
 
 ```csharp
@@ -69,7 +70,7 @@ You must always mark your MonoBehaviors with either `[Insert]` or `[Power]` or t
 
 This is basic injection, we will get back to more advanced forms of injections, named and typed, later.
 
-###When will objects be available ?
+### When will objects be available ?
 
 Dependency injection will be executed AFTER the monobehaviors Start() method. So you should not try to use any objects (that requires injection) in the Awake() or Start()methods.
 All objects will be available and fully injected on FixedUpdate and Update.
@@ -92,7 +93,7 @@ class Player {
 This method will be executed AFTER Start() but BEFORE Update() and FixedUpdate(), so you can do any last minute initialization here.
 The method attributed with [OnInjected] must have zero parameters
 
-###Producing objects
+### Producing objects
 You can produce objects using either the [Insert] attribute or the [Produce] attribute. The [Insert] attribute works, as mentioned, like this.
 
 ```csharp
@@ -170,7 +171,7 @@ class Player:MonoBehaviour {
 
 It works in the exact same way.
 
-###Interface composition
+### Interface composition
 In many cases you would like to implement some functionality but you are not quite sure of the scope of it.
 You might have an idea of it, or you at least partly know what it should do.
 The goal is to create a single interface implementation that contains the desired functionality, but the problem is that that the functionality, and the necessary data needed to create it, might be scattered out all over the application.
@@ -261,7 +262,7 @@ IUserControls enhanceControls(SomeObject someObj,IUserControls controls)//receiv
 
 The names of the producer methods are not important at all. They just have to be annotated with the [produce] annotation.
 
-###Order of execution
+### Order of execution
 Producers are executed whenever the objects they need becomes available (the arguments) and in this order:
 
 1) Top down in the scene graph.
@@ -327,7 +328,7 @@ class ClassThatNeedsPlayers {
     Player player2;
 }
 ```
-###Type producing
+### Type producing
 The return type of each producer is also the exact type it binds to.
 The object created by:
 ```csharp
@@ -393,7 +394,7 @@ class MonoBehaviorThatIsAlsoAUserControl:IUserControls {
 Here you specify that your monobehavior should really be seen as a IUserControlsand not a MonoBehaviorThatIsAlsoAUserControl.
 If you do not specify that, it will be seen as a MonoBehaviorThatIsAlsoAUserControland no field or producer that expects a IUserControls will ever receive it..
 
-###The [NewInstance] attribute.
+### The [NewInstance] attribute.
 If you want to create an object only used in a single class, meaning it is not injected into other classes, you can use the [NewInstance] tag. It is very similar to the new keyword, only difference is that objects created with new will not be injected.
 ```csharp
 class Player {
@@ -427,7 +428,7 @@ class Gun {
 }
 ```
 
-###Creating objects on the fly
+### Creating objects on the fly
 But what if you want to dynamically create objects ? Bullets, for example. Attributes can’t handle that.
 The solution is to inject the injector itself, then inject the newly created object, using the injector. That sentence is barely understandable so here is an example.
 ```csharp
@@ -446,10 +447,10 @@ class Player {
 
 Just remember that injection might be an expensive operation if you have a deep object graph, so some kind of object pooling might be appropriate.
 
-###Shielded injection
+### Shielded injection
 If you need areas of separate injection, meaning, objects graphs that do not interfere with each other, simply add more PowerPipelines to the scene graph.
 
-###Hierarchical injection
+### Hierarchical injection
 Sometimes you want a “main” or “parent” pipeline, that floats objects down to sub pipelines. You can have as many pipelines as you want, ordered in whatever hierarchy that reflects the logic of your application. The pipelines on the same level do not know about each other, but all receive common objects from the mainpipeline.
 An example could be a two player game with two identical “Player” pipelines, and a shared “Master” pipeline.
 The master pipeline could provide objects like levels, settings etc, and the “player” pipelines objects like controls, health etc.
@@ -459,5 +460,5 @@ MasterPipeline
 --Player1 pipeline  
 --Player2 pipeline  
 
-###Error messages
+### Error messages
 When you run your game, you will receive warning messages in the Unity log window about what producers did not run and what fields were not injected, if any.
