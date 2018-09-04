@@ -1,0 +1,29 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "C:\\src\\new_ob3d_unity\\PowerInject\\PowerInject\\PowerInject.csproj",
+    "projectName": "PowerInject",
+    "projectPath": "C:\\src\\new_ob3d_unity\\PowerInject\\PowerInject\\PowerInject.csproj",
+    "outputPath": "C:\\src\\new_ob3d_unity\\PowerInject\\PowerInject\\obj\\",
+    "projectStyle": "PackageReference",
+    "fallbackFolders": [
+      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+    ],
+    "originalTargetFrameworks": [
+      "net35"
+    ],
+    "frameworks": {
+      "net35": {
+        "projectReferences": {}
+      }
+    },
+    "warningProperties": {
+      "warnAsError": [
+        "NU1605"
+      ]
+    }
+  },
+  "frameworks": {
+    "net35": {}
+  }
+}

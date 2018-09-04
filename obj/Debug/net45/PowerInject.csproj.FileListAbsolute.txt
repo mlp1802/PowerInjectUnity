@@ -1,0 +1,11 @@
+C:\src\new_ob3d_unity\PowerInject\PowerInject\bin\Debug\net45\PowerInject.dll
+C:\src\new_ob3d_unity\PowerInject\PowerInject\bin\Debug\net45\PowerInject.pdb
+C:\src\new_ob3d_unity\PowerInject\PowerInject\bin\Debug\net45\UnityEngine.dll
+C:\src\new_ob3d_unity\PowerInject\PowerInject\bin\Debug\net45\UnityEngine.xml
+C:\src\new_ob3d_unity\PowerInject\PowerInject\obj\Debug\net45\PowerInject.csprojAssemblyReference.cache
+C:\src\new_ob3d_unity\PowerInject\PowerInject\obj\Debug\net45\PowerInject.csproj.CoreCompileInputs.cache
+C:\src\new_ob3d_unity\PowerInject\PowerInject\obj\Debug\net45\PowerInject.AssemblyInfoInputs.cache
+C:\src\new_ob3d_unity\PowerInject\PowerInject\obj\Debug\net45\PowerInject.AssemblyInfo.cs
+C:\src\new_ob3d_unity\PowerInject\PowerInject\obj\Debug\net45\PowerInject.csproj.CopyComplete
+C:\src\new_ob3d_unity\PowerInject\PowerInject\obj\Debug\net45\PowerInject.dll
+C:\src\new_ob3d_unity\PowerInject\PowerInject\obj\Debug\net45\PowerInject.pdb

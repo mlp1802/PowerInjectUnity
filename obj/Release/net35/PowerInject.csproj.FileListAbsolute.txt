@@ -1,0 +1,10 @@
+C:\src\new_ob3d_unity\PowerInject\PowerInject\bin\Release\net35\PowerInject.dll
+C:\src\new_ob3d_unity\PowerInject\PowerInject\bin\Release\net35\PowerInject.pdb
+C:\src\new_ob3d_unity\PowerInject\PowerInject\bin\Release\net35\UnityEngine.dll
+C:\src\new_ob3d_unity\PowerInject\PowerInject\bin\Release\net35\UnityEngine.xml
+C:\src\new_ob3d_unity\PowerInject\PowerInject\obj\Release\net35\PowerInject.csproj.CoreCompileInputs.cache
+C:\src\new_ob3d_unity\PowerInject\PowerInject\obj\Release\net35\PowerInject.AssemblyInfoInputs.cache
+C:\src\new_ob3d_unity\PowerInject\PowerInject\obj\Release\net35\PowerInject.AssemblyInfo.cs
+C:\src\new_ob3d_unity\PowerInject\PowerInject\obj\Release\net35\PowerInject.csproj.CopyComplete
+C:\src\new_ob3d_unity\PowerInject\PowerInject\obj\Release\net35\PowerInject.dll
+C:\src\new_ob3d_unity\PowerInject\PowerInject\obj\Release\net35\PowerInject.pdb
